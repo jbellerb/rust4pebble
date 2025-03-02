@@ -171,11 +171,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1740958104,
-        "narHash": "sha256-abmS4+1z5DXnA3ILsjcjVrr4dQ6NLY1zsz3Ebw5JIjk=",
+        "lastModified": 1740960137,
+        "narHash": "sha256-WxCnm8FQ5WpPXZM9jK0Mh9t3P1BlPl1aEal5VLGeDik=",
         "owner": "jbellerb",
         "repo": "pebble.nix",
-        "rev": "02129f4139fe13d0b31ae882af7acc5196b65a0f",
+        "rev": "539762040c3068050c8a70fa5faba00c13512812",
         "type": "github"
       },
       "original": {

@@ -6,5 +6,6 @@ members = [
 
 [workspace.dependencies]
 bindgen = "0.71"
+cty = "0.2"
 
 pebblesdk-sys = { path = "pebblesdk-sys" }

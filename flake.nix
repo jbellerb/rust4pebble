@@ -39,22 +39,22 @@
             overlays = [ inputs.fenix.overlays.default ];
           };
 
-          devShells.default = pkgs.mkShell {
-            nativeBuildInputs =
-              [
-                (pkgs.fenix.combine (
-                  builtins.concatMap (target: [ pkgs.fenix.targets."${target}".stable.rust-std ]) [
-                    "thumbv7m-none-eabi"
-                    "thumbv7em-none-eabi"
-                  ]
-                ))
-              ]
-              ++ (with inputs'.pebble.packages; [
-                pebble-qemu
-                pebble-tool
-              ]);
+          devShells.default = inputs.pebble.pebbleEnv."${system}" {
+            nativeBuildInputs = [
+              (pkgs.fenix.combine (
+                [ pkgs.fenix.stable.toolchain ]
+                ++ (builtins.concatMap (target: [ pkgs.fenix.targets."${target}".stable.rust-std ]) [
+                  "thumbv7m-none-eabi"
+                  "thumbv7em-none-eabi"
+                ])
+              ))
+            ];
 
-            CFLAGS = "";
+            LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
+            BINDGEN_EXTRA_CLANG_ARGS = ''
+              -I${inputs'.pebble.packages.arm-embedded-toolchain}/arm-none-eabi/include \
+              -I${inputs'.pebble.packages.arm-embedded-toolchain}/lib/gcc/arm-none-eabi/4.7.4/include
+            '';
           };
         };
     };
