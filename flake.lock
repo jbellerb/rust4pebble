@@ -135,11 +135,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1740828860,
-        "narHash": "sha256-cjbHI+zUzK5CPsQZqMhE3npTyYFt9tJ3+ohcfaOF/WM=",
+        "lastModified": 1734649271,
+        "narHash": "sha256-4EVBRhOjMDuGtMaofAIqzJbg4Ql7Ai0PSeuVZTHjyKQ=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "303bd8071377433a2d8f76e684ec773d70c5b642",
+        "rev": "d70bd19e0a38ad4790d3913bf08fcbfc9eeca507",
         "type": "github"
       },
       "original": {
@@ -171,15 +171,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1740887496,
-        "narHash": "sha256-mlBIlV+MncUHTyP2D6JeCJuC16PwoAVnTgNScndlXu0=",
-        "owner": "pebble-dev",
+        "lastModified": 1740958104,
+        "narHash": "sha256-abmS4+1z5DXnA3ILsjcjVrr4dQ6NLY1zsz3Ebw5JIjk=",
+        "owner": "jbellerb",
         "repo": "pebble.nix",
-        "rev": "2987c8277141cfd4447f9f59cf7ad721ef14ee0d",
+        "rev": "02129f4139fe13d0b31ae882af7acc5196b65a0f",
         "type": "github"
       },
       "original": {
-        "owner": "pebble-dev",
+        "owner": "jbellerb",
         "repo": "pebble.nix",
         "type": "github"
       }

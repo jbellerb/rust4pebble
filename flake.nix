@@ -7,7 +7,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     pebble = {
-      url = "github:pebble-dev/pebble.nix";
+      url = "github:jbellerb/pebble.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
