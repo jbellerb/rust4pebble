@@ -79,7 +79,7 @@ fn locate_sdk(target: &str) -> PathBuf {
         .expect("determine SDK location");
 
     println!("cargo:rustc-link-search={}/lib", path.to_string_lossy());
-    println!("cargo:rustc-link-lib=libpebble");
+    println!("cargo:rustc-link-lib=pebble");
 
     path
 }

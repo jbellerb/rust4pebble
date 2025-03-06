@@ -1,2 +1,11 @@
-/target
-/result
+.direnv/
+result
+
+target/
+
+build
+.waf*
+.lock*
+
+__pycache__/
+*.py[cod]

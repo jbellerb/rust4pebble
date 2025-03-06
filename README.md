@@ -10,9 +10,9 @@ Safe and expressive Rust bindings for the [Pebble SDK](https://developer.rebble.
 ### Goals
 
 During the hackathon, my goal is to finish at least the following:
-- [ ] Get the SDK linking via Cargo
-- [x] (Unsafe) low-level bindings to the SDK in [pebble-sys](pebble-sys/)
-- [ ] A simple "Hello World!"-style app running within the emulator
+- [x] Get the SDK linking via Cargo
+- [x] (Unsafe) low-level bindings to the SDK in [pebblesdk-sys](pebblesdk-sys/)
+- [x] A simple "Hello World!"-style app running within the emulator
 - [ ] Documentation
 
 Eventually:

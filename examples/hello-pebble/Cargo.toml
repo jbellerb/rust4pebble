@@ -1,0 +1,12 @@
+[package]
+name = "hello-pebble"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+pebblesdk-sys = { workspace = true }
+
+[[bin]]
+name = "hello-pebble"
+test = false
+bench = false
