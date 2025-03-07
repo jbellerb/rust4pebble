@@ -2,6 +2,7 @@
 resolver = "2"
 members = [
   "examples/hello-pebble",
+  "pebblesdk",
   "pebblesdk-sys",
 ]
 
@@ -9,4 +10,5 @@ members = [
 bindgen = "0.71"
 cty = "0.2"
 
+pebblesdk = { path = "pebblesdk" }
 pebblesdk-sys = { path = "pebblesdk-sys" }

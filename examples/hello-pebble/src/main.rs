@@ -1,37 +1,21 @@
 #![no_std]
 #![no_main]
 
-use core::arch::asm;
-use core::panic::PanicInfo;
 use core::ptr::null_mut;
 use core::sync::atomic::{AtomicPtr, Ordering};
 
-use pebblesdk_sys::{
-    APP_LOG_LEVEL_ERROR, FONT_KEY_GOTHIC_28_BOLD, GColor, GPoint, GRect, GSize,
-    GTextAlignmentCenter, MINUTE_UNIT, TextLayer, TimeUnits, Window, WindowHandlers,
-    app_event_loop, app_log, fonts_get_system_font, layer_add_child, layer_get_bounds, localtime,
-    strftime, text_layer_create, text_layer_destroy, text_layer_get_layer,
-    text_layer_set_background_color, text_layer_set_font, text_layer_set_text,
-    text_layer_set_text_alignment, text_layer_set_text_color, tick_timer_service_subscribe, time,
-    tm, window_create, window_destroy, window_get_root_layer, window_set_background_color,
-    window_set_window_handlers, window_stack_push,
+#[allow(unused_imports)]
+use pebblesdk::panic as _;
+
+use pebblesdk::sys::{
+    FONT_KEY_GOTHIC_28_BOLD, GColor, GPoint, GRect, GSize, GTextAlignmentCenter, MINUTE_UNIT,
+    TextLayer, TimeUnits, Window, WindowHandlers, app_event_loop, fonts_get_system_font,
+    layer_add_child, layer_get_bounds, localtime, strftime, text_layer_create, text_layer_destroy,
+    text_layer_get_layer, text_layer_set_background_color, text_layer_set_font,
+    text_layer_set_text, text_layer_set_text_alignment, text_layer_set_text_color,
+    tick_timer_service_subscribe, time, tm, window_create, window_destroy, window_get_root_layer,
+    window_set_background_color, window_set_window_handlers, window_stack_push,
 };
-
-#[panic_handler]
-fn panic(info: &PanicInfo) -> ! {
-    let location = info.location();
-    unsafe {
-        app_log(
-            APP_LOG_LEVEL_ERROR as u8,
-            location.map(|loc| loc.file()).unwrap_or("???").as_ptr(),
-            location.map(|loc| loc.line() as i32).unwrap_or(0),
-            concat!("app '", env!("CARGO_BIN_NAME"), "' panicked\0").as_ptr(),
-        );
-
-        // Trigger a UsageFault exception so the kernel kills our process.
-        asm!("udf 0", options(noreturn));
-    }
-}
 
 static MAIN_WINDOW: AtomicPtr<Window> = AtomicPtr::new(null_mut());
 static TIME_TEXT_LAYER: AtomicPtr<TextLayer> = AtomicPtr::new(null_mut());

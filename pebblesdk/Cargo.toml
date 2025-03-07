@@ -1,0 +1,13 @@
+[package]
+name = "pebblesdk"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pebblesdk-sys = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = [
+  "thumbv7em-none-eabi",
+  "thumbv7m-none-eabi",
+]
