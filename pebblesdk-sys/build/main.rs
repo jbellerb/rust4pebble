@@ -22,6 +22,12 @@ fn main() {
     let include_paths = vec![src_path.join("include"), sdk_path.join("include"), gen_path];
 
     run("lib", "#include <pebble.h>", &include_paths, &out_path);
+    run(
+        "appinfo",
+        "#include <pebble_process_info.h>",
+        &include_paths,
+        &out_path,
+    );
 }
 
 fn check_platform(target: &str, version: &str, platform: &str) {
