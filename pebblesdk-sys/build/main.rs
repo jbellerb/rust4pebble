@@ -15,11 +15,13 @@ fn main() {
     let out_dir = var("OUT_DIR").expect("get output directory from Cargo");
     let out_path = Path::new(&out_dir);
 
-    let src_path = current_dir().expect("get the current directory");
-    let sdk_path = locate_sdk(&target);
-    let gen_path = generate_headers(out_path);
-
-    let include_paths = vec![src_path.join("include"), sdk_path.join("include"), gen_path];
+    let include_paths = vec![
+        current_dir()
+            .expect("get the current directory")
+            .join("include"),
+        locate_sdk(&target).join("include"),
+        generate_headers(&out_path),
+    ];
 
     run("lib", "#include <pebble.h>", &include_paths, &out_path);
     run(

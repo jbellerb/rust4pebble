@@ -4,5 +4,6 @@
 #![allow(non_snake_case)]
 
 pub mod appinfo;
+pub mod libc;
 
 include!(concat!(env!("OUT_DIR"), "/bindings_lib.rs"));
