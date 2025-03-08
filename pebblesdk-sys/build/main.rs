@@ -99,7 +99,8 @@ fn run(name: &str, header: &str, include_paths: &Vec<PathBuf>, out_path: &Path) 
         .parse_callbacks(Box::new(ParseDoxygen))
         .use_core()
         .ctypes_prefix("cty")
-        .prepend_enum_name(false);
+        .prepend_enum_name(false)
+        .allowlist_file(".*/sdk-core/pebble/[^/]+/include/[^/]+\\.h");
 
     for path in include_paths {
         builder = builder.clang_arg("-I").clang_arg(path.to_string_lossy());
