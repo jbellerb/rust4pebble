@@ -30,6 +30,7 @@ def configure(ctx):
         '-C', 'link-arg=--specs=nano.specs',
         '-C', 'link-arg=-Wl,--gc-sections',
         '-C', 'link-arg=-Wl,--build-id=sha1',
+        '-C', 'opt-level=s',
     ]
 
 
@@ -38,14 +39,14 @@ def cargo_build(self, target=[], bin_type=[]):
     if bin_type != 'app':
         self.fatal('Currently the only supported bin_type is "app".')
 
+    plat_dir = self.path.find_or_declare(self.env.BUILD_DIR)
     return self(
         target=target,
         features='c pebble_cprogram cargo memory_usage',
         bin_type=bin_type,
         app=target,
-        resources=self.path.find_or_declare(self.env.BUILD_DIR).make_node(
-            'app_resources.pbpack'
-        ),
+        plat_dir=plat_dir,
+        resources=plat_dir.find_node('app_resources.pbpack'),
     )
 
 
@@ -61,19 +62,27 @@ def build_cargo_app(task_gen):
         task_gen.env.RUSTC_CPU = 'cortex-m4'
     else:
         task_gen.fatal('Unrecognized platform: {}'.format(task_gen.env.PLATFORM_NAME))
+
+    objs = [task.outputs[0] for task in task_gen.compiled_tasks]
     task_gen.env.append_value('RUSTFLAGS', [
+        '--cfg=pebble_sdk_platform="{}"'.format(task_gen.env.PLATFORM_NAME),
         '-C', 'target-cpu={}'.format(task_gen.env.RUSTC_CPU),
         '-C', 'linker={}'.format(task_gen.env.LINK_CC[0]),
         '-C', 'link-arg=-T{}/{}'.format(task_gen.path.abspath(), task_gen.ldscript),
         '-C', 'link-arg=-Wl,-Map,{}/pebble-{}.map,--emit-relocs'.format(
-            task_gen.path.bld_dir(),
+            task_gen.plat_dir.abspath(),
             task_gen.bin_type,
         ),
-    ])
+    ] + [x for obj in objs for x in ('-C', 'link-arg={}'.format(obj.abspath()))])
 
-    objs = [task.outputs[0] for task in task_gen.compiled_tasks]
+    inputs = [
+        # No Cargo.lock means we're in a workspace. Search for Cargo.toml
+        # instead. TODO: Collect these locations from Cargo metadata in
+        # the configure step.
+        task_gen.path.find_node('Cargo.lock') or task_gen.path.find_node('Cargo.toml')
+    ] + task_gen.path.ant_glob('**/*.rs')
     output = task_gen.path.get_bld().find_or_declare(task_gen.target)
-    task_gen.create_task('cargo_build', objs, output)
+    task_gen.create_task('cargo_build', inputs, output)
 
 class cargo_build(Task.Task):
     def run(self):
@@ -86,12 +95,8 @@ class cargo_build(Task.Task):
         if self.env.CARGO_PROFILE == 'release':
             cargo_cmd.append('--release')
 
-        self.env.append_value('RUSTFLAGS', [
-            '--cfg=pebble_sdk_platform="{}"'.format(self.env.PLATFORM_NAME)
-        ] + [x for i in self.inputs for x in ('-C', 'link-arg={}'.format(i.abspath()))])
         env = os.environ.copy()
         env['RUSTFLAGS'] = ' '.join(self.env.RUSTFLAGS)
-
         ret = self.exec_command(cargo_cmd, cwd=task_gen.path.abspath(), env=env)
         if ret != 0:
             return ret
