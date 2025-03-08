@@ -44,7 +44,7 @@ def cargo_build(self, target=[], bin_type=[]):
         bin_type=bin_type,
         app=target,
         plat_dir=plat_dir,
-        resources=plat_dir.find_node('app_resources.pbpack'),
+        resources=plat_dir.make_node('app_resources.pbpack'),
     )
 
 

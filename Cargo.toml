@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
-  "examples/hello-pebble",
+  "examples/hello-ferris",
   "pebblesdk",
   "pebblesdk-sys",
 ]

@@ -22,7 +22,13 @@
       "dummy"
     ],
     "resources": {
-      "media": []
+      "media": [
+        {
+          "type": "raw",
+          "name": "FERRIS_IMAGE",
+          "file": "ferris.pdc"
+        }
+      ]
     }
   }
 }

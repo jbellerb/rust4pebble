@@ -1,5 +1,5 @@
 [package]
-name = "hello-pebble"
+name = "hello-ferris"
 version = "0.1.0"
 edition = "2024"
 
@@ -7,6 +7,6 @@ edition = "2024"
 pebblesdk = { workspace = true }
 
 [[bin]]
-name = "hello-pebble"
+name = "hello-ferris"
 test = false
 bench = false
