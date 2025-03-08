@@ -3,7 +3,7 @@ result
 
 target/
 
-build
+examples/**/build
 .waf*
 .lock*
 
