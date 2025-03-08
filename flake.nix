@@ -2,12 +2,12 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    fenix = {
-      url = "github:nix-community/fenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     pebble = {
       url = "github:jbellerb/pebble.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -36,18 +36,18 @@
         {
           _module.args.pkgs = import nixpkgs {
             inherit system;
-            overlays = [ inputs.fenix.overlays.default ];
+            overlays = [ inputs.rust-overlay.overlays.default ];
           };
 
           devShells.default = inputs.pebble.pebbleEnv."${system}" {
             nativeBuildInputs = [
-              (pkgs.fenix.combine (
-                [ pkgs.fenix.stable.toolchain ]
-                ++ (builtins.concatMap (target: [ pkgs.fenix.targets."${target}".stable.rust-std ]) [
+              (pkgs.rust-bin.stable.latest.default.override {
+                extensions = [ "rust-src" ];
+                targets = [
                   "thumbv7m-none-eabi"
                   "thumbv7em-none-eabi"
-                ])
-              ))
+                ];
+              })
             ];
 
             LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";

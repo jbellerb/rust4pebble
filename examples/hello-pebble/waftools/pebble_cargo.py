@@ -27,9 +27,7 @@ def configure(ctx):
     ctx.env.CARGO_PROFILE = 'release' if 'RELEASE' in ctx.env.DEFINES else 'debug'
     ctx.env.RUSTFLAGS = [
         '-C', 'relocation-model=pie',
-        '-C', 'link-arg=--specs=nano.specs',
-        '-C', 'link-arg=-Wl,--gc-sections',
-        '-C', 'link-arg=-Wl,--build-id=sha1',
+        '-C', 'link-arg=--build-id=sha1',
         '-C', 'opt-level=s',
     ]
 
@@ -67,12 +65,7 @@ def build_cargo_app(task_gen):
     task_gen.env.append_value('RUSTFLAGS', [
         '--cfg=pebble_sdk_platform="{}"'.format(task_gen.env.PLATFORM_NAME),
         '-C', 'target-cpu={}'.format(task_gen.env.RUSTC_CPU),
-        '-C', 'linker={}'.format(task_gen.env.LINK_CC[0]),
         '-C', 'link-arg=-T{}/{}'.format(task_gen.path.abspath(), task_gen.ldscript),
-        '-C', 'link-arg=-Wl,-Map,{}/pebble-{}.map,--emit-relocs'.format(
-            task_gen.plat_dir.abspath(),
-            task_gen.bin_type,
-        ),
     ] + [x for obj in objs for x in ('-C', 'link-arg={}'.format(obj.abspath()))])
 
     inputs = [
