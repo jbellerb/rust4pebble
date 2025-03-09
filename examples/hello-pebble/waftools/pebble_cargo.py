@@ -64,7 +64,6 @@ def build_cargo_app(task_gen):
     objs = [task.outputs[0] for task in task_gen.compiled_tasks]
     task_gen.env.append_value('RUSTFLAGS', [
         '--cfg=pebble_sdk_platform="{}"'.format(task_gen.env.PLATFORM_NAME),
-        '-C', 'target-cpu={}'.format(task_gen.env.RUSTC_CPU),
         '-C', 'link-arg=-T{}/{}'.format(task_gen.path.abspath(), task_gen.ldscript),
     ] + [x for obj in objs for x in ('-C', 'link-arg={}'.format(obj.abspath()))])
 
